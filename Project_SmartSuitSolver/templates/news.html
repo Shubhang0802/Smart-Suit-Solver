@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News – Smart Suit Solver</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/static/styles.css" />
+  <style>
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .news-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    .news-card a {
+      color: #61dafb;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .news-card a:hover {
+      text-decoration: underline;
+    }
+
+    .news-card .meta {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">Logo Placeholder</div>
+    <div class="product-name">Smart Suit Solver</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About Us</a>
+      <a href="impact_cases.html" class="nav-link">Impact Cases</a>
+      <a href="news.html" class="nav-link active">News</a>
+    </div>
+  </div>
+
+  <div class="news-content" style="max-width: 1200px; margin: 2rem auto; color: #f0f0f0; line-height: 1.6; padding: 0 20px;">
+    <h2 style="color: #ffffff; font-family: 'Orbitron', sans-serif; margin-bottom: 1rem;">
+      Latest Legal News &amp; Judgments
+    </h2>
+    <p style="margin-bottom: 1.5rem;">
+      Curated headlines from top Indian legal news sources. Click a headline to read the full article.
+    </p>
+    <div id="newsList" class="news-grid">
+      <p style="color: #ccc;">Loading headlines…</p>
+    </div>
+  </div>
+
+  <script>
+  const NEWS_CONTAINER = document.getElementById("newsList");
+  const RSS_FEED_URL = "https://www.barandbench.com/feed";
+  const FETCH_URL = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(RSS_FEED_URL);
+
+  fetch(FETCH_URL)
+    .then(response => response.json())
+    .then(data => {
+      if (!data.items || data.items.length === 0) {
+        NEWS_CONTAINER.innerHTML = '<p style="color: #ccc;">No news items found.</p>';
+        return;
+      }
+
+      const topItems = data.items.slice(0, 15); // Fetch at least 15 items
+
+      // Clear any loading text
+      NEWS_CONTAINER.innerHTML = "";
+
+      topItems.forEach(item => {
+        const pubDate = new Date(item.pubDate).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        });
+
+        const card = document.createElement("div");
+        card.style.background = "rgba(255, 255, 255, 0.02)";
+        card.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+        card.style.padding = "20px";
+        card.style.marginBottom = "20px";
+        card.style.borderRadius = "10px";
+        card.style.boxShadow = "0 0 15px rgba(255, 255, 255, 0.05)";
+        card.style.transition = "transform 0.3s ease, box-shadow 0.3s ease";
+
+        card.onmouseover = () => {
+          card.style.transform = "translateY(-5px)";
+          card.style.boxShadow = "0 0 25px rgba(255, 255, 255, 0.1)";
+        };
+
+        card.onmouseout = () => {
+          card.style.transform = "translateY(0)";
+          card.style.boxShadow = "0 0 15px rgba(255, 255, 255, 0.05)";
+        };
+
+        const title = document.createElement("a");
+        title.href = item.link;
+        title.target = "_blank";
+        title.textContent = item.title;
+        title.style.color = "#61dafb";
+        title.style.fontSize = "18px";
+        title.style.fontWeight = "500";
+        title.style.textDecoration = "none";
+        title.style.display = "block";
+        title.style.marginBottom = "10px";
+
+        title.addEventListener("mouseover", () => {
+          title.style.textDecoration = "underline";
+        });
+        title.addEventListener("mouseout", () => {
+          title.style.textDecoration = "none";
+        });
+
+        const date = document.createElement("div");
+        date.textContent = `Published on: ${pubDate}`;
+        date.style.color = "#aaa";
+        date.style.fontSize = "0.9rem";
+
+        card.appendChild(title);
+        card.appendChild(date);
+
+        NEWS_CONTAINER.appendChild(card);
+      });
+
+      // Optional: View more button
+      const more = document.createElement("p");
+      more.style.marginTop = "2rem";
+      more.innerHTML = `
+        <a href="https://www.barandbench.com/" target="_blank"
+          style="color: #61dafb; text-decoration: none; font-weight: 500;">
+          View more on Bar & Bench →
+        </a>
+      `;
+      NEWS_CONTAINER.appendChild(more);
+    })
+    .catch(error => {
+      console.error("Error fetching news:", error);
+      NEWS_CONTAINER.innerHTML = '<p style="color: #ccc;">Unable to load news at this time.</p>';
+    });
+</script>
+
+</body>
+</html>

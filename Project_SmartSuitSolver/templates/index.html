@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Suit Solver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="III.jpg" alt="Logo" style="height: 60px; margin-right: 10px; ">
+            <div class="product-name" style="font-size: 24px; font-weight: bold;">Smart Suit Solver</div>
+        </div>
+        <div class="nav-links">
+            <a href="about.html">About Us</a>
+            <a href="impact_cases.html">Impact Cases</a>
+            <a href="news.html">News</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <form id="uploadForm" enctype="multipart/form-data" method="POST">
+            <div class="upload-section">
+                <div class="upload-content">
+                    <span class="upload-label">Upload relevant documents</span>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="fileInput" name="file" class="file-input" accept=".pdf" required>
+                        <label for="fileInput" class="file-input-label">Add File</label>
+                    </div>
+                    <button type="button" class="remove-file-btn" onclick="removeFile()">Remove File</button>
+                    <span class="file-name" id="fileName"></span>
+                </div>
+            </div>
+            <div class="dropdown">
+                <select id="docType" name="docType" required>
+                    <option value="" disabled selected>Select Document Type</option>
+                    <option value="fir">First Information Report (FIR)</option>
+                    <option value="legal_notice">Legal Notice</option>
+                    <option value="affidavit">Affidavit</option>
+                    <option value="case_file">Case File</option>
+                    <option value="evidence">Evidence Document</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // File input handling
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileName');
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = fileInput.files[0].name;
+            } else {
+                fileNameDisplay.textContent = '';
+            }
+        });
+
+        function removeFile() {
+            fileInput.value = '';
+            fileNameDisplay.textContent = '';
+        }
+
+        // Form submission handling
+        document.getElementById('uploadForm').addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent default form submission to /predict
+
+            // Basic validation
+            const file = fileInput.files[0];
+            const docType = document.getElementById('docType').value;
+
+            if (!file) {
+                alert('Please upload a file.');
+                return;
+            }
+
+            if (!docType) {
+                alert('Please select a document type.');
+                return;
+            }
+
+            // Redirect to result.html
+            window.location.href = 'result.html';
+        });
+    </script>
+</body>
+</html>

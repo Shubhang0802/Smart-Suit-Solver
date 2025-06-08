@@ -1,0 +1,678 @@
+body {
+    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* ── HEADER & NAVIGATION ───────────────────────────────────────────────────── */
+
+/* Make header a positioning container */
+.header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 40px;
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+/* Logo on the left */
+.logo {
+    width: 100px;
+    height: 40px;
+    background: linear-gradient(45deg, #333, #555);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+    color: #aaa;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+/* Title centered via absolute positioning */
+.product-name {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ffffff, #cccccc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Nav links on the right */
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #ffffff;
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #ffffff;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Highlight the “active” link */
+.nav-links a.active {
+    color: #ffffff;
+}
+
+.nav-links a.active::after {
+    width: 100%;
+}
+
+/* ── INDEX & CAREERS/NEWS/ABOUT PAGE CONTENT ───────────────────────────────── */
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    min-height: calc(100vh - 70px);
+    justify-content: center;
+}
+
+/* Reuse .content for careers/news if needed; they can override or add styling */
+
+.about-content {
+    margin: 2rem auto;
+    max-width: 800px;
+    color: #f0f0f0;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.about-content section {
+    margin-bottom: 2.5rem;
+}
+
+.about-content h2,
+.about-content h3 {
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.about-content p {
+    margin-bottom: 1rem;
+}
+
+.about-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.team-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.team-section li {
+    margin-bottom: 0.5rem;
+}
+
+/* Contact links */
+.contact-us a {
+    color: #61dafb;
+    text-decoration: none;
+}
+
+.contact-us a:hover {
+    text-decoration: underline;
+}
+
+.social-links {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links li {
+    display: inline;
+}
+
+/* ── UPLOAD FORM STYLES (INDEX PAGE) ─────────────────────────────────────── */
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.upload-section {
+    width: 80%;
+    max-width: 900px;
+    height: 150px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(30, 30, 30, 0.5);
+    backdrop-filter: blur(15px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    padding: 20px;
+}
+
+.upload-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.upload-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.upload-label {
+    font-style: normal;
+    color: #aaa;
+    margin-right: 15px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.file-input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.file-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.file-input-label {
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #444, #666);
+    color: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.file-input-label:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.remove-file-btn {
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #666, #444);
+    color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0 0 10px rgba(255, 255, 255, 0.2);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    display: none;
+}
+
+.remove-file-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.file-name {
+    color: #ccc;
+    font-size: 14px;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdown select {
+    width: 100%;
+    height: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(30, 30, 30, 0.5);
+    backdrop-filter: blur(15px);
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 10px;
+    padding: 0 15px;
+    appearance: none;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.dropdown select:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.dropdown select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.dropdown select option {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+.submit-btn {
+    margin-top: 20px ;
+    padding: 12px 40px;
+    background: linear-gradient(45deg, #ffffff, #cccccc);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0 0 30px rgba(255, 255, 255, 0.3);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    align-self: center;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.submit-btn:disabled {
+    background: linear-gradient(45deg, #666, #444);
+    color: #aaa;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ── ABOUT PAGE ADJACENT STYLES ───────────────────────────────────────────────── */
+
+.about-content {
+    margin: 2rem auto;
+    max-width: 800px;
+    color: #f0f0f0;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.about-content section {
+    margin-bottom: 2.5rem;
+}
+
+.about-content h2,
+.about-content h3 {
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.about-content p {
+    margin-bottom: 1rem;
+}
+
+.about-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.team-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.team-section li {
+    margin-bottom: 0.5rem;
+}
+
+.contact-us a {
+    color: #61dafb;
+    text-decoration: none;
+}
+
+.contact-us a:hover {
+    text-decoration: underline;
+}
+
+.social-links {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links li {
+    display: inline;
+}
+
+/* Additional styles for Impact Cases page */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: rgba(30, 30, 30, 0.9);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 500px;
+    width: 90%;
+    color: #e0e0e0;
+}
+
+.modal-content h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+}
+
+.modal-content textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.close-btn {
+    background: linear-gradient(45deg, #666, #444);
+    color: #e0e0e0;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 10px;
+    align-self: flex-end;
+}
+
+.close-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.impact-btn {
+    background: linear-gradient(45deg, #2a9d8f, #48cae4);
+    color: #1a1a1a;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.impact-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+/* Internship Form Styles (Updated for Precise Alignment) */
+.internship-form {
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.internship-form h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
+    font-size: 20px;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.internship-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.internship-form input,
+.internship-form select,
+.internship-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+    padding: 10px 12px;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    margin: 0; /* Reset any browser-specific margins */
+}
+
+.internship-form input:focus,
+.internship-form select:focus,
+.internship-form textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.internship-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.internship-form select {
+    appearance: none;
+    -webkit-appearance: none; /* Ensure consistent appearance across browsers */
+    -moz-appearance: none;
+    padding-right: 24px; /* Adjusted to match input padding and arrow space */
+    line-height: 1.5; /* Match input line-height for consistent height */
+}
+
+.internship-form .dropdown {
+    position: relative;
+    width: 100%;
+    margin: 0; /* Ensure no extra margins affect alignment */
+}
+
+.internship-form .dropdown::after {
+    content: '▼';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 10px;
+    pointer-events: none;
+}
+
+.internship-form input:invalid:focus,
+.internship-form select:invalid:focus,
+.internship-form textarea:invalid:focus {
+    border-color: #ff5555;
+}
+
+/* Lawyer Login/Registration Modal Styles */
+.lawyer-auth-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.lawyer-auth-modal .modal-content {
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    width: 90%;
+    color: #e0e0e0;
+}
+
+.lawyer-auth-modal h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
+    font-size: 18px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.lawyer-auth-modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lawyer-auth-modal input {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+.lawyer-auth-modal input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.lawyer-auth-modal input:invalid:focus {
+    border-color: #ff5555;
+}
+
+.lawyer-auth-modal .toggle-link {
+    color: #61dafb;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.lawyer-auth-modal .toggle-link:hover {
+    text-decoration: underline;
+}
+
+.lawyer-auth-modal .close-btn {
+    background: linear-gradient(45deg, #666, #444);
+    color: #e0e0e0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    align-self: flex-end;
+}
+
+.lawyer-auth-modal .close-btn:hover {
+    background: linear-gradient(45deg, #777, #555);
+}

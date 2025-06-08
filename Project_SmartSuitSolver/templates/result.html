@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIR Analysis - Smart Suit Solver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(45deg, #222, #333);
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 24px;
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .back-btn {
+            background: linear-gradient(45deg, #444, #666);
+            color: #e0e0e0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        .back-btn:hover {
+            background: linear-gradient(45deg, #555, #777);
+        }
+        .section {
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .section h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .section h3 {
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .fir-details p, .prediction p {
+            margin: 5px 0;
+        }
+        .strategy-simulation table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .strategy-simulation th, .strategy-simulation td {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .strategy-simulation th {
+            background: rgba(50, 50, 50, 0.8);
+            color: #ffffff;
+        }
+        .strategy-simulation td {
+            background: rgba(40, 40, 40, 0.6);
+        }
+        .risk-meter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .risk-meter .meter {
+            flex: 1;
+            min-width: 220px;
+            background: rgba(40, 40, 40, 0.6);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .risk-meter .meter-label {
+            font-size: 14px;
+            color: #e0e0e0;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        .risk-meter .meter-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .risk-meter .meter-fill {
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        .risk-meter .meter-fill.low {
+            background: #00ff00;
+        }
+        .risk-meter .meter-fill.moderate {
+            background: #ffff00;
+        }
+        .risk-meter .meter-fill.high {
+            background: #ff0000;
+        }
+        .risk-meter .meter-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            color: #000000;
+            font-weight: 500;
+        }
+        .risk-meter .meter-details {
+            font-size: 12px;
+            color: #aaaaaa;
+            margin-top: 5px;
+            text-align: left;
+        }
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .heatmap-grid .case {
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .heatmap-grid .win {
+            background: rgba(0, 255, 0, 0.3);
+        }
+        .heatmap-grid .lose {
+            background: rgba(255, 0, 0, 0.3);
+        }
+        .heatmap-grid .winning-cluster {
+            border: 2px solid #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="back-btn">Back to Dashboard</a>
+        <h1>Smart Suit Solver - FIR Analysis (0135/2025)</h1>
+        <div style="width: 120px;"></div>
+    </header>
+
+    <div class="container">
+        <!-- FIR Details -->
+        <div class="section fir-details">
+            <h2>FIR Details</h2>
+            <p><strong>FIR No:</strong> 0135/2025</p>
+            <p><strong>District:</strong> North East, Delhi</p>
+            <p><strong>Police Station:</strong> Seelampur</p>
+            <p><strong>Date of FIR:</strong> 22/04/2025</p>
+            <p><strong>Occurrence Date:</strong> 21/04/2025 at 08:30 hrs</p>
+            <p><strong>Complainant:</strong> Komal, D/o Vijender, 23 yrs, H.No D-28, Punjabi Basti, Nagloi, Delhi</p>
+            <p><strong>Sections:</strong> BNS 281 (Rash Driving), 125(a) (Endangering Human Safety/Causing Hurt)</p>
+            <p><strong>Incident Summary:</strong> Complainant was traveling in vehicle DL-5ERA-3783 from Seelampur Metro Station. Likely a road accident involving rash driving and causing hurt.</p>
+            <p><strong>Investigating Officer:</strong> Dinesh Kumar (No. 28101426)</p>
+        </div>
+
+        <!-- Strategy Simulation / What-if Planning -->
+        <div class="section strategy-simulation">
+            <h2>What-if Simulator</h2>
+            <h3>Compare Legal Strategies</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Strategy</th>
+                        <th>Predicted Outcome</th>
+                        <th>Timeline</th>
+                        <th>Cost (INR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>File under BNS 281 + 125(a)</td>
+                        <td>70% chance of conviction; likely settlement</td>
+                        <td>6-12 months</td>
+                        <td>50,000 - 1,00,000</td>
+                    </tr>
+                    <tr>
+                        <td>Add BNS 315 (Causing Death by Negligence)</td>
+                        <td>50% chance of conviction; higher scrutiny</td>
+                        <td>12-18 months</td>
+                        <td>1,00,000 - 2,00,000</td>
+                    </tr>
+                    <tr>
+                        <td>Add BNS 420 (Cheating, if fraud involved)</td>
+                        <td>40% chance of conviction; requires strong evidence</td>
+                        <td>18-24 months</td>
+                        <td>1,50,000 - 3,00,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Legal Risk Meter -->
+        <div class="section risk-meter">
+            <h2>Legal Risk Meter</h2>
+            <div class="meter">
+                <div class="meter-label">Risk of Losing</div>
+                <div class="meter-bar">
+                    <div class="meter-fill moderate" style="width: 65%;">
+                        <span class="meter-value">65%</span>
+                    </div>
+                </div>
+                <div class="meter-details">Moderate risk; evidence strength critical.</div>
+            </div>
+            <div class="meter">
+                <div class="meter-label">Cost Involved</div>
+                <div class="meter-bar">
+                    <div class="meter-fill low" style="width: 25%;">
+                        <span class="meter-value">75,000</span>
+                    </div>
+                </div>
+                <div class="meter-details">Low cost relative to max 3,00,000 INR.
+                    <br>
+                    Amount in INR
+                </div>
+            </div>
+            <div class="meter">
+                <div class="meter-label">Time Cost</div>
+                <div class="meter-bar">
+                    <div class="meter-fill low" style="width: 25%;">
+                        <span class="meter-value">9 M</span>
+                    </div>
+                </div>
+                <div class="meter-details">Low time cost relative to max 36 months.
+                    <br>(M -> Months)</div>
+            </div>
+            <div class="meter">
+                <div class="meter-label">Emotional Cost</div>
+                <div class="meter-bar">
+                    <div class="meter-fill moderate" style="width: 60%;">
+                        <span class="meter-value">60%</span>
+                    </div>
+                </div>
+                <div class="meter-details">Moderate emotional toll due to legal stress.</div>
+            </div>
+            <p><strong>Recommendation:</strong> Pursue if evidence of rash driving is strong; consider settlement to minimize emotional and time costs.</p>
+        </div>
+
+        <!-- Similar Cases Heatmap -->
+        <div class="section heatmap">
+            <h2>Top 5 Similar Cases (Heatmap)</h2>
+            <div class="heatmap-grid">
+                <div class="case win winning-cluster">Case 1: Win (BNS 281, 2024)</div>
+                <div class="case win winning-cluster">Case 2: Win (BNS 281, 2023)</div>
+                <div class="case lose">Case 3: Lose (BNS 281, 2024)</div>
+                <div class="case win winning-cluster">Case 4: Win (BNS 281, 2023)</div>
+                <div class="case lose">Case 5: Lose (BNS 281, 2025)</div>
+            </div>
+            <p><strong>Winning Cluster:</strong> Cases 1, 2, and 4 (favorable outcomes with strong evidence of rash driving).</p>
+        </div>
+
+        <!-- Predictions -->
+        <div class="section prediction">
+            <h2>Case Predictions</h2>
+            <p><strong>Will the Person Win or Lose?</strong> 60% chance of winning if settled; 40% if contested (depends on evidence of rash driving and injury).</p>
+            <p><strong>Applicable Laws:</strong> BNS 281 (Rash Driving), 125(a) (Endangering Human Safety/Causing Hurt); potential for 315 (Causing Death by Negligence) if applicable.</p>
+            <p><strong>Case Duration:</strong> 6-12 months if settled; 12-24 months if contested.</p>
+            <p><strong>Punishment/Settlement:</strong> Likely fine of INR 10,000-50,000 and/or 6 months imprisonment; settlement possible with compensation of INR 50,000-1,00,000 to victim.</p>
+        </div>
+    </div>
+</body>
+</html>

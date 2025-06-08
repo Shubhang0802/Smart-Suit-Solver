@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impact Cases - Smart Suit Solver</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Logo Placeholder</div>
+        <h1 class="product-name">Smart Suit Solver</h1>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="impact_cases.html" class="active">Impact Cases</a>
+            <a href="news.html">News</a>
+        </nav>
+    </header>
+
+    <main class="content about-content">
+        <section>
+            <h2>Lawyer Learning Panel</h2>
+            <p>Welcome to the Lawyer Learning Panel, where junior lawyers and interns can hone their skills, earn experience points (XP), and contribute to social good through pro bono cases.</p>
+            <button class="impact-btn" onclick="openAuthModal('login')">Login/Register as a Partner</button>
+        </section>
+
+        <section>
+            <h3>Simulated Cases</h3>
+            <p>Practice your legal skills with realistic simulated cases. Draft charges, bail pleas, or legal memos and get feedback from senior lawyers.</p>
+            <button class="impact-btn" onclick="alert('Simulated case practice coming soon!')">Start Case</button>
+        </section>
+
+        <section>
+            <h3>Earn XP</h3>
+            <p>Submit legal drafts to earn XP points. All submissions are verified by experienced senior lawyers to ensure quality and learning.</p>
+            <div class="xp-tracker">
+                <p>Your XP: <strong>0</strong> | Leaderboard Rank: <strong>Not Ranked</strong></p>
+                <p>Complete more cases to climb the leaderboard!</p>
+            </div>
+        </section>
+
+        <section>
+            <h3>Pro Bono & Low-Cost Cases</h3>
+            <p>Take on real cases for social good. Work on pro bono or low-cost cases to make a difference in communities while gaining practical experience.</p>
+            <button class="impact-btn" onclick="openModal()">Apply for Pro Bono Cases</button>
+        </section>
+
+        <section class="internship-form">
+            <h3>Internship Application for Law Students</h3>
+            <p>Join our Lawyer Learning Panel as an intern! Apply below to gain hands-on experience and mentorship from seasoned legal professionals.</p>
+            <form id="internship-form" action="/submit-internship" method="POST">
+                <input type="text" name="full_name" placeholder="Full Name" required aria-label="Full Name">
+                <input type="email" name="email" placeholder="Email Address" required aria-label="Email Address">
+                <input type="text" name="law_school" placeholder="Law School" required aria-label="Law School">
+                <div style="position: relative; width: 100%;">
+                    <select name="year_of_study" required aria-label="Year of Study" style="width: 100%; box-sizing: border-box; background: rgba(30, 30, 30, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); color: #e0e0e0; padding: 10px 30px 10px 12px; border-radius: 5px; font-family: 'Inter', sans-serif; font-size: 14px; appearance: none; -webkit-appearance: none; -moz-appearance: none;">
+                        <option value="" disabled selected>Select Year of Study</option>
+                        <option value="1L">1L</option>
+                        <option value="2L">2L</option>
+                        <option value="3L">3L</option>
+                        <option value="4L">4L</option>
+                        <option value="5L">5L</option>
+                    </select>
+                    <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 10px; pointer-events: none;">▼</span>
+                </div>
+                <div class="file-input-wrapper">
+                    <input type="file" id="resume" name="resume" class="file-input" accept=".pdf,.doc,.docx" required aria-label="Upload Resume">
+                    <label for="resume" class="file-input-label">Upload Resume</label>
+                    <span class="file-name">No file chosen</span>
+                </div>
+                <textarea name="cover_letter" placeholder="Cover Letter" required aria-label="Cover Letter"></textarea>
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </section>
+    </main>
+
+    <div class="modal" id="pro-bono-modal">
+        <div class="modal-content">
+            <h3>Apply for Pro Bono Cases</h3>
+            <form id="pro-bono-form" action="/submit-pro-bono" method="POST">
+                <input type="text" name="name" placeholder="Full Name" required aria-label="Full Name">
+                <input type="email" name="email" placeholder="Email Address" required aria-label="Email Address">
+                <select name="case_type" required aria-label="Case Type Interest">
+                    <option value="" disabled selected>Select Case Type</option>
+                    <option value="civil">Civil Rights</option>
+                    <option value="criminal">Criminal Defense</option>
+                    <option value="family">Family Law</option>
+                    <option value="other">Other</option>
+                </select>
+                <button type="submit" class="submit-btn">Submit</button>
+                <button type="button" class="close-btn" onclick="closeModal()">Close</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="lawyer-auth-modal" id="lawyer-auth-modal">
+        <div class="modal-content">
+            <div id="login-form" style="display: block;">
+                <h3>Login as a Partner</h3>
+                <form id="lawyer-login-form" action="/login-lawyer" method="POST">
+                    <input type="email" name="email" placeholder="Email Address" required aria-label="Email Address">
+                    <input type="password" name="password" placeholder="Password" required aria-label="Password">
+                    <button type="submit" class="submit-btn">Login</button>
+                    <a href="#" class="toggle-link" onclick="toggleAuthForm('register')">New? Register as a Partner</a>
+                    <button type="button" class="close-btn" onclick="closeAuthModal()">Close</button>
+                </form>
+            </div>
+            <div id="register-form" style="display: none;">
+                <h3>Register as a Partner</h3>
+                <form id="lawyer-register-form" action="/register-lawyer" method="POST">
+                    <input type="text" name="full_name" placeholder="Full Name" required aria-label="Full Name">
+                    <input type="email" name="email" placeholder="Email Address" required aria-label="Email Address">
+                    <input type="text" name="bar_id" placeholder="Bar Association ID" required aria-label="Bar Association ID">
+                    <input type="password" name="password" placeholder="Password" required aria-label="Password">
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" required aria-label="Confirm Password">
+                    <button type="submit" class="submit-btn">Register</button>
+                    <a href="#" class="toggle-link" onclick="toggleAuthForm('login')">Already registered? Login</a>
+                    <button type="button" class="close-btn" onclick="closeAuthModal()">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal control for pro bono
+        function openModal() {
+            document.getElementById('pro-bono-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('pro-bono-modal').style.display = 'none';
+        }
+
+        // Modal control for lawyer auth
+        function openAuthModal(form) {
+            document.getElementById('lawyer-auth-modal').style.display = 'flex';
+            toggleAuthForm(form);
+        }
+
+        function closeAuthModal() {
+            document.getElementById('lawyer-auth-modal').style.display = 'none';
+        }
+
+        function toggleAuthForm(form) {
+            document.getElementById('login-form').style.display = form === 'login' ? 'block' : 'none';
+            document.getElementById('register-form').style.display = form === 'register' ? 'block' : 'none';
+        }
+
+        // File input handling
+        const fileInput = document.getElementById('resume');
+        const fileNameDisplay = document.querySelector('.file-name');
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = fileInput.files[0].name;
+            } else {
+                fileNameDisplay.textContent = 'No file chosen';
+            }
+        });
+
+        // Internship form validation
+        document.getElementById('internship-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+            let valid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    valid = false;
+                    input.style.borderColor = '#ff5555';
+                } else {
+                    input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }
+            });
+
+            if (valid) {
+                alert('Internship application submitted! (Simulated)');
+                form.reset();
+                fileNameDisplay.textContent = 'No file chosen';
+            } else {
+                alert('Please fill out all required fields.');
+            }
+        });
+
+        // Pro bono form validation
+        document.getElementById('pro-bono-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const inputs = form.querySelectorAll('input[required], select[required]');
+            let valid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    valid = false;
+                    input.style.borderColor = '#ff5555';
+                } else {
+                    input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }
+            });
+
+            if (valid) {
+                alert('Pro bono case application submitted! (Simulated)');
+                form.reset();
+                closeModal();
+            } else {
+                alert('Please fill out all required fields.');
+            }
+        });
+
+        // Lawyer login form validation
+        document.getElementById('lawyer-login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const email = form.querySelector('input[name="email"]').value;
+            const password = form.querySelector('input[name="password"]').value;
+            let valid = true;
+
+            if (!email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+                valid = false;
+                form.querySelector('input[name="email"]').style.borderColor = '#ff5555';
+            } else {
+                form.querySelector('input[name="email"]').style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            }
+
+            if (!password) {
+                valid = false;
+                form.querySelector('input[name="password"]').style.borderColor = '#ff5555';
+            } else {
+                form.querySelector('input[name="password"]').style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            }
+
+            if (valid) {
+                alert('Login successful! (Simulated)');
+                form.reset();
+                closeAuthModal();
+            } else {
+                alert('Please fill out all required fields correctly.');
+            }
+        });
+
+        // Lawyer registration form validation
+        document.getElementById('lawyer-register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const email = form.querySelector('input[name="email"]').value;
+            const password = form.querySelector('input[name="password"]').value;
+            const confirmPassword = form.querySelector('input[name="confirm_password"]').value;
+            const inputs = form.querySelectorAll('input[required]');
+            let valid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    valid = false;
+                    input.style.borderColor = '#ff5555';
+                } else {
+                    input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }
+            });
+
+            if (!email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+                valid = false;
+                form.querySelector('input[name="email"]').style.borderColor = '#ff5555';
+            }
+
+            if (password !== confirmPassword) {
+                valid = false;
+                form.querySelector('input[name="confirm_password"]').style.borderColor = '#ff5555';
+            }
+
+            if (valid) {
+                alert('Registration successful! Please log in. (Simulated)');
+                form.reset();
+                toggleAuthForm('login');
+            } else {
+                alert('Please fill out all required fields correctly.');
+            }
+        });
+    </script>
+</body>
+</html>
